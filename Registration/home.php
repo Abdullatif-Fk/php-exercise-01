@@ -1,18 +1,10 @@
-
 <?php
-
-
-
-
-
-
-
 if($_SERVER["REQUEST_METHOD"]=='POST'){
 
     $name_error = $email_error = $username_error = $password_error = $day_error = $year_error = $SSN_error = $phone_error="";
     $name = $email = $username = $password =$month =$day = $year = $SSN = $phone ="";
-    
-    $info_arraytemp="";
+
+    //$info_arraytemp=[];
     
 
     function test_input($data){
@@ -142,43 +134,95 @@ if($_SERVER["REQUEST_METHOD"]=='POST'){
         }
 
 
-        $name_error=nameChech();
-        $username_error=usernameCheck();
-        $email_error=emailCheck();
-        $password_error=passwordCheck();
-        $day_error=birthdayCheck();
-        $year_error=birthyearCheck();
-        $SSN_error=SSNCheck();
-        $phone_error=phoneCheck();
-        $info_array = array($_POST["name"],$_POST["email"],$_POST["username"],$_POST["password"],$_POST["passwordconfirm"],$_POST["BirthMonth"],$_POST["BirthDay"],$_POST["BirthYear"],$_POST["ssn"],$_POST["phone"]);
+        
 
         
-        $test=$name_error + $username_error +$email_error +$password_error +$day_error +$year_error+ $SSN_error+ $phone_error;
+
+        
        
-       
-        if($test==8){
-        $info_arraytemp=$info_array;
+        
+        
         
         
         if(isset($_POST['submit'])){
-            header('Location: safe.php');
+            $name_error=nameChech();
+            $username_error=usernameCheck();
+            $email_error=emailCheck();
+            $password_error=passwordCheck();
+            $day_error=birthdayCheck();
+            $year_error=birthyearCheck();
+            $SSN_error=SSNCheck();
+            $phone_error=phoneCheck();
+            $test=$name_error + $username_error +$email_error +$password_error 
+            +$day_error +$year_error+ $SSN_error+ $phone_error;
+            
+
+            if($test==8){
+                $info_array = [
+
+
+                    $_POST["name"],$_POST["email"],$_POST["username"],
+                    $_POST["password"],$_POST["passwordconfirm"],$_POST["BirthMonth"],$_POST["BirthDay"],
+                    $_POST["BirthYear"],$_POST["ssn"],$_POST["phone"]
+                
+                
+                    ];
+                //print(info_array[3]);
+               
+                session_start();
+                $_SESSION['name']=$info_array;
+                header('Location: safe.php');
+                //document.getElementById("name").reset();
+                //$name_error = $email_error = $username_error = $password_error = $day_error = $year_error = $SSN_error = $phone_error="";
+                //print_r($info_arraytemp);
+                
+               //exit();
+
+
+            }
+
+            
+            
+            
                 
             }
-   
+            if(isset($_POST['submit1'])){
+                session_start();
+                $array=$_SESSION['name'];
+                if($_POST['username12']===$array[2] && $_POST['password12']===$array[3]){
+                    header('Location: safe.php');
+                    
+                }
+                
+                
 
-       }
+
+
+            }
+
+            //print_r($array);
        
 
-       if ( $_POST["usernamel"] ===$info_array[2] && $_POST["passwordl"]===$info_array[3] ){
+       
         //print_r($test);
         //print_r($info_arraytemp);
-      //  if(isset($_POST["submit1"])){
-            header('Location: safe.php');
+        //echo(isset($_POST["submit1"]));
+      /* if(isset($_POST["submit1"])){
+        
+        if ($_POST["usernamel"] !=""&&$_POST["passwordl"]!=""&& $_POST["usernamel"] ==$info_array[2] && $password_error&& $POST["passwordl"]== $info_array[3])
+        {//echo(isset($_POST["submit1"]));
+            session_start();
+                $_SESSION['name']=$info_arraytemp;
+                header('Location: safe.php');
+            //header('Location: safe.php');
+            exit();
                 
-            //}
-   
+            }
+            //$print=$_POST["usernamel"];
+            //print_r($print);
+        }*/
 
-       }
+       
 
 
        
@@ -198,6 +242,8 @@ if($_SERVER["REQUEST_METHOD"]=='POST'){
 
 
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -205,37 +251,38 @@ if($_SERVER["REQUEST_METHOD"]=='POST'){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="pagestyle.css">
+    <link rel="stylesheet" href="homestayle.css">
+    
     <title>Document</title>
 </head>
 <body>
 
- <form id="contactform"  method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+ <form id="contactform"  method="POST" > 
              <div  class="form">
                  
                 <div class="register">
                 <h1> Register :</h1>
                     <p class="contact"><label for="name">Name</label></p> 
-                    <input id="name" name="name" placeholder="First and last name"  tabindex="1" type="text" value="<?php echo $info_array[0]; ?>"  > 
-                    <div class="error"><?php if($name_error!=="1"){echo"$name_error";} ?></div>
+                    <input id="name" name="name" placeholder="First and last name"  tabindex="1" type="text" value=<?php if($POST["submit"]){echo("");}?>  > 
+                    <div class="error"><?php if($name_error!==true){echo"$name_error";} ?></div>
 
                     <p class="contact"><label for="email">Email</label></p> 
-                    <input id="email" name="email" placeholder="example.thing@domain.com" value=<?php echo "$info_array[1]"; ?> > 
-                    <div class="error"><?php if($email_error!=="1"){echo"$email_error";}?></div>
+                    <input id="email" name="email" placeholder="example.thing@domain.com"  > 
+                    <div class="error"><?php if($email_error!==true){echo"$email_error";}?></div>
 
 
                     <p class="contact"><label for="username">Create a username</label></p> 
-                    <input id="username" name="username" placeholder="username"  tabindex="2" type="text" value=<?php echo "$info_array[2]"; ?>> 
-                    <div class="error"><?php if($username_error!=="1"){echo"$username_error"; }?></div>
+                    <input id="username" name="username" placeholder="username"  tabindex="2" type="text" > 
+                    <div class="error"><?php if($username_error!==true){echo"$username_error"; }?></div>
 
 
                     <p class="contact"><label for="password">Create a password</label></p> 
-                    <input  id="password" name="password" type="password" value=<?php echo "$info_array[3]"; ?>> 
+                    <input  id="password" name="password" type="password" > 
                     
                    
                     <p class="contact"><label for="passwordconfirm">Confirm your password</label></p> 
-                    <input  id="passwordconfirm" name="passwordconfirm" type="password" value=<?php echo "$info_array[4]"; ?>> 
-                    <div class="error"><?php if($password_error!=="1"){echo"$password_error";} ?></div>
+                    <input  id="passwordconfirm" name="passwordconfirm" type="password" > 
+                    <div class="error"><?php if($password_error!==true){echo"$password_error";} ?></div>
                    
                     <div>
                     <label>Birthday</label>
@@ -258,15 +305,15 @@ if($_SERVER["REQUEST_METHOD"]=='POST'){
                         </select>
                     </label> <br><br>
                     <div>   
-                        <label>Day<input id="day" class="birthday"  name="BirthDay"  placeholder="Day" value=<?php echo "$info_array[6]"; ?> ></label>
-                        <span class="error"><?php if($day_error!=="1"){echo"$day_error";} ?></span>
-                        <label>Year <input id="year" class="birthyear"  name="BirthYear" placeholder="Year" value=<?php echo "$info_array[7]"; ?> ></label>
-                        <span class="error"><?php if($year_error!=="1"){echo"$year_error"; }?></span>
+                        <label>Day<input id="day" class="birthday"  name="BirthDay"  placeholder="Day"  ></label>
+                        <span class="error"><?php if($day_error!==true){echo"$day_error";} ?></span>
+                        <label>Year <input id="year" class="birthyear"  name="BirthYear" placeholder="Year"  ></label>
+                        <span class="error"><?php if($year_error!==true){echo"$year_error"; }?></span>
                     </div><br>
                     </div>  
                         
-                    <label>Social Security Number <input id="ssn" class="ssn"  name="ssn" placeholder="125-25-6987" value=<?php echo "$info_array[8]"; ?> ></label>
-                    <div class="error"><?php if($SSN_error!=="1"){echo"$SSN_error";} ?></div>
+                    <label>Social Security Number <input id="ssn" class="ssn"  name="ssn" placeholder="125-25-6987"  ></label>
+                    <div class="error"><?php if($SSN_error!==true){echo"$SSN_error";} ?></div>
                     
                         
                             
@@ -276,30 +323,32 @@ if($_SERVER["REQUEST_METHOD"]=='POST'){
                     
 
                     <p class="contact"><label for="phone">Mobile phone</label></p> 
-                    <input id="phone" name="phone" placeholder="phone number Like 961 3 558796" type="text" value=<?php echo "$info_array[9]"; ?>>
-                    <div class="error"><?php if($phone_error!=="1"){echo"$phone_error";} ?></div> 
+                    <input id="phone" name="phone" placeholder="phone number Like 961 3 558796" type="text" >
+                    <div class="error"><?php if($phone_error!==true){echo"$phone_error";} ?></div> 
                     <div>
-                    <input class="buttom" name="submit" id="submit" tabindex="5" value="Sign me up!" type="submit">
+                    <input class="buttom" name="submit" id="submit" tabindex="5" value="Register!" type="submit"  >
                     </div>        
                 </div>
-         </form> 
-                
-                        
+</form>
+<form  method="POST" >
+               
                 <div class="login">
+               
                 <h1> Log in :</h1>
-                    <p class="contact"><label for="username">Username</label></p> 
-                    <input id="username" name="usernamel" placeholder="username"  tabindex="2" type="text"> 
-                    <p class="contact"><label for="username">Password</label></p> 
-                    <input id="username" name="passwordl" placeholder="password"  tabindex="2" type="password"> 
+                    <p class="contact"><label for="username1">Username</label></p> 
+                    <input id="username12" name="username12" placeholder="username"  type="text"> 
+                    <p class="contact"><label for="password12">Password</label></p> 
+                    <input id="password12" name="password12" placeholder="password"  type="password"> 
                     
-                    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
+                  
                     <div>
-                    <input class="buttom" name="submit1" id="submit" tabindex="5" value="Log in" type="submit">
+                    <input class="buttom" name="submit1" id="submit1"  value="Log in" type="submit">
                     </div>
-                    </form>
+
         
 
                 </div>
+</form>
 
 
 

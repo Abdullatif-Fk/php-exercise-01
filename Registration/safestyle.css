@@ -1,0 +1,68 @@
+body{
+    margin: 0px;
+    background: url("https://thumbs.dreamstime.com/z/best-practice-business-background-golden-compass-needle-black-field-pointing-to-word-d-render-34168098.jpg") no-repeat fixed 100%;
+
+}
+
+
+#content {
+    position: relative;
+    width: 60%;
+    display: block;
+    margin: 2% auto;
+    text-align: center;
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+
+  #svg{
+    padding: 2em;
+    background-color: #cacaca;
+    display: block;
+    color: #fff;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+  }
+
+  #checkmark {
+    font-weight: lighter;
+    fill: #fff;
+    margin: -3.5em auto auto 80px;
+  }
+  #status {
+    font-weight: lighter;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1em;
+    margin-top: -.2em;
+    margin-bottom: 0;
+  }
+  #message-content{
+    padding: 2em 2em 5em 2em;
+    background: #fff;
+    display: block;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  #message {
+    margin-top: -.5em;
+    color: #757575;
+    letter-spacing: 1px;
+  }
+  td.td{
+    padding-left: 5px;
+    color:black;
+    font-weight: bold;
+    
+
+  }
+  td{
+    padding-left: 20px;
+    color:black;
+
+  }
+  tr{
+    padding-bottom: 20px;
+  }
+  table{
+    margin-left: 180px;
+  }
